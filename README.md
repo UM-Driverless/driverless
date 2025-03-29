@@ -1,5 +1,6 @@
 # Contents <!-- omit in toc -->
 - [Install](#install)
+    - [To install latest CUDA on Ubuntu 24.04:](#to-install-latest-cuda-on-ubuntu-2404)
 - [To-Do](#to-do)
 - [INSTALL SIMULATOR](#install-simulator)
 - [Notes](#notes)
@@ -48,6 +49,31 @@ pip install -e .
 python -m pip install -e .
 ```
 
+## To install latest CUDA on Ubuntu 24.04:
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+sudo apt install ./cuda-keyring_1.1-1_all.deb
+sudo apt update
+sudo apt install cuda-toolkit
+```
+Check this
+https://developer.nvidia.com/cuda-12-6-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=24.04&target_type=deb_network
+
+The previous codeblock worked for me. If you have problems, follow this. It should include everything necessary:
+- Install NVIDIA drivers
+- Install NVIDIA driver utils
+- Install general drivers: ubuntu-drivers autoinstall
+- Install CUDA with: apt install nvidia-cuda-toolkit
+- (skipping steps like GDS and Mellanox here)
+- Install GCC to compile c++ code and as requirement from nvidia website (see)
+- Install cuDNN as a requirement for Tensorflow see cuDNN:
+- wget https://developer.download.nvidia.com/compute/cudnn/9.1.1/local_installers/cudnn-local-repo-ubuntu2204-9.1.1_1.0-1_amd64.deb
+- sudo dpkg -i cudnn-local-repo-ubuntu2204-9.1.1_1.0-1_amd64.deb
+- sudo cp /var/cudnn-local-repo-ubuntu2204-9.1.1/cudnn-*-keyring.gpg /usr/share/keyrings/
+- sudo apt-get update
+- sudo apt-get -y install cudnn-cuda-12
+- If these are the steps that you followed to install CUDA, tell me how you went about the Tensorflow installation.
+
 
 # To-Do
 - use default logger python library
@@ -55,6 +81,21 @@ python -m pip install -e .
 - rename github project from Deteccion_conos to ``um_driverless``
 - check delays between simulator and processed image, response time
 - knowing the pickling error, try to visualize to a thread
+- TODO with open to camera and threads, simulator control? So it can close when stopped.
+- SEND CAN HEARTBEAT
+- MAKE ZED WORK AGAIN
+- RESTORE GENERIC AGENT CLASS FOR NO SPECIFIC TEST. THEN THE TESTS INHERIT FROM IT. COMMENTED.
+- PUT GLOBAL VARS AS ATTRIBUTE OF CAR OBJECT?
+- Initialize trackbars of ConeProcessing. Why?
+- Only import used libraries from activations with global config constants
+- SET SPEED ACCORDING TO CAN PROTOCOL, and the rest of state variables (SEN BOARD)
+- check edgeimpulse
+- Print number of cones detected per color
+- Xavier why network takes 3s to execute. How to make it use GPU?
+- Make net faster. Remove cone types that we don't use? Reduce resolution of yolov5?
+- Move threads to different files to make main.py shorter
+- Check NVPMODEL with high power during xavier installation
+- find todos and fix them
 - TODO with open to camera and threads, simulator control? So it can close when stopped.
 - SEND CAN HEARTBEAT
 - MAKE ZED WORK AGAIN
@@ -184,6 +225,8 @@ To use, first run the fsds-... file, click "Run simulation", then run the python
 
 # Notes
 - To use CAN comm with the Nvidia Jetson Orin, the can bus has to be working properly and connected when the Orin turns on. There has to be at least another device to acknowledge messages.
+- For CAN to work first run setup_can0.sh
+    - To run on startup, add to /etc/profile.d/
 - For CAN to work first run setup_can0.sh
     - To run on startup, add to /etc/profile.d/
 

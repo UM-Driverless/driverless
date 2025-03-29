@@ -23,33 +23,6 @@ MAIN script to run all the others. Shall contain the main classes, top level fun
 https://github.com/UM-Driverless/Deteccion_conos/tree/Test_Portatil
 vulture . --min-confidence 100
 
-# TODO
-- !!!
-    - get rid of sys.path.append in the code
-    - adopt src structure
-    - Update the README.md
-TODO with open to camera and threads, simulator control? So it can close when stopped.
-- TODO RECOVER SIMULATOR CONTROL
-- SEND CAN HEARTBEAT
-- TODO THREADED CAN
-- CAN in threads, steering with PDO instead of SDO (faster)
-- Solve TORNADO.PLATFORM.AUTO ERROR, WHEN USING SIMULATOR
-- MAKE ZED WORK AGAIN
-- RESTORE GENERIC AGENT CLASS FOR NO SPECIFIC TEST. THEN THE TESTS INHERIT FROM IT. COMMENTED.
-- PUT GLOBAL VARS AS ATTRIBUTE OF CAR OBJECT?
-- PROBAR CAN EN UM05
-- IPYTHON TO REQUIREMENTS, also canlib
-- Initialize trackbars of ConeProcessing. Why?
-- Only import used libraries from activations with global config constants
-- SET SPEED ACCORDING TO CAN PROTOCOL, and the rest of state variables (SEN BOARD)
-- check edgeimpulse
-- Print number of cones detected per color
-- Xavier why network takes 3s to execute. How to make it use GPU?
-- Make net faster. Remove cone types that we don't use? Reduce resolution of yolov5?
-- Move threads to different files to make main.py shorter
-- Check NVPMODEL with high power during xavier installation
-- Reuse logger
-
 - Wanted to make visualize work in a thread and for any resolution, but now it works for any resolution, don't know why, and it's always about 3ms so it's not worth it for now.
 
 # STUFF
@@ -132,6 +105,7 @@ if __name__ == '__main__': # multiprocessing creates child processes that import
             # print(f"STEER: {dv_car.actuation['steer']} -> {int((dv_car.actuation['steer'] + 1) / 2 * 90)}")
     finally:
         print("------------")
+        dv_car.stop()
         if dv_car.config['LOGGER']:
             dv_car.logger.write(f'{np.array(timer.times_integrated) / timer.loop_counter}')
         ## Plot the times
@@ -142,6 +116,4 @@ if __name__ == '__main__': # multiprocessing creates child processes that import
         plt.title("Execution time per section of main loop")
         plt.savefig("logs/times.png")
         
-        # Close processes and windows
-        dv_car.stop()
 

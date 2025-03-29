@@ -80,7 +80,7 @@ class Car:
         self.comm.receive_state(self.state)
     
     def _can_send_thread(self):
-        print(f'Starting CAN receive thread...')
+        print("Starting CAN receive thread...")
         
         while True:
             self.can_receive.receive_frame() # self.can_receive.frame updated
@@ -91,6 +91,7 @@ class Car:
             self.can_queue.put(car_state_local)
     
     def stop(self):
+        print("Stopping car...")
         self.camera.stop()
         self.actuation = {
             'acc': 0., # Acceleration. From -1.0 to 1.0.
@@ -98,4 +99,6 @@ class Car:
             'throttle': 0., # float in [0., 1.)
             'brake': 0., # float in [0., 1.)
         }
+        if hasattr(self.comm, "client"):  # Only for SimulatorComm
+            self.comm.client.enableApiControl(False)
         

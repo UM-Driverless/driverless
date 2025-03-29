@@ -44,6 +44,15 @@ setup(
         "pyopengl",
         "scikit-image",
         "psutil",
+        
+        # Maybe not necessary
+        "gitpython",
+        "ipython",
+        # "thop",
+        # "ipywidgets",
+        # "ipywebrtc",
+        # "serial",
+        
     ],
     include_package_data=True,
     classifiers=[

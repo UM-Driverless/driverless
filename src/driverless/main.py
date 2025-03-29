@@ -25,7 +25,7 @@ vulture . --min-confidence 100
 
 # TODO
 - !!!
-    - Use pyenv to install python and uv package manager with pip editable install
+    
     - with setup.py instead of requirements.txt
     - get rid of sys.path.append in the code
     - adopt src structure

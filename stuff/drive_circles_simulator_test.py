@@ -1,20 +1,7 @@
-import sys
-import os
-
-## adds the fsds package located the parent directory to the pyhthon path
-fsds_lib_path = os.path.join(os.getcwd(),"Formula-Student-Driverless-Simulator","python")
-sys.path.insert(0, fsds_lib_path)
-print(f'FSDS simulator path: {fsds_lib_path}')
-
-import time
-import fsds
-import numpy as np
-
-# connect to the AirSim simulator 
-client = fsds.FSDSClient()
-
-# Check network connection, exit if not connected
-client.confirmConnection()
+from driverless.utils.fsds_loader import load_fsds
+fsds = load_fsds()
+client = fsds.client.FSDSClient()
+client.confirmConnection()  # Example method to confirm connection
 
 # After enabling api controll only the api can controll the car. 
 # Direct keyboard and joystick into the simulator are disabled.

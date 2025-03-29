@@ -1,14 +1,8 @@
-import os, sys, cv2, time, serial
-import numpy as np
+import serial
 import multiprocessing
 from abc import ABC, abstractmethod
 
 class CarCommunicator(ABC):
-    def __init__(self):
-        # FSDS_LIB_PATH = os.path.join(os.path.expanduser("~"), "Formula-Student-Driverless-Simulator", "python") # os.getcwd()
-        self.SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.DRIVERLESS_DIR = os.path.dirname(self.SRC_DIR)
-
     @abstractmethod
     def send_actuation(self, actuation):
         """Sends actuation commands (steering, throttle, etc.) to the car."""
@@ -47,11 +41,11 @@ class NullCarCommunicator(CarCommunicator):
 class SimulatorComm(CarCommunicator):
     def __init__(self):
         super().__init__()
-        FSDS_LIB_PATH = os.path.join(os.path.dirname(self.DRIVERLESS_DIR), "Formula-Student-Driverless-Simulator", "python")
-        sys.path.insert(0, FSDS_LIB_PATH)
-        print(f'FSDS simulator path: {FSDS_LIB_PATH}')
-        global fsds # TODO TRY COMMENT THIS
-        import fsds
+        
+        from driverless.utils.fsds_loader import load_fsds
+        fsds = load_fsds()
+        client = fsds.client.FSDSClient()
+        client.confirmConnection()  # Example method to confirm connection
         
         self.client = fsds.FSDSClient() # To control the car
         # Check network connection, exit if not connected

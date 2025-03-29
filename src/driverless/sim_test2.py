@@ -1,19 +1,18 @@
-import os, sys, time, math, cv2, yaml, numpy as np
+import numpy as np
+import cv2
 import multiprocessing
 
-SRC_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(SRC_DIR)
-FSDS_LIB_PATH = os.path.join(os.path.dirname(ROOT_DIR), "Formula-Student-Driverless-Simulator", "python")
-sys.path.insert(0, FSDS_LIB_PATH)
-print(f'FSDS simulator path: {FSDS_LIB_PATH}')
-global fsds
-import fsds
+from driverless.utils.fsds_loader import load_fsds
+fsds = load_fsds()
+sim_client1 = fsds.client.FSDSClient()
+sim_client1.confirmConnection()  # Example method to confirm connection
+
+simulator_car_controls = fsds.CarControls()
 
 def worker(cam_queue):
     client = fsds.FSDSClient() # To get the image. WARNING: THIS IS NOT PICKLABLE, SO IT CANNOT BE PASSED TO A MULTIPROCESSING FUNCTION. HOWEVER, IT CAN BE DEFINED AND USED INSIDE THE WORKER FUNCTION ITSELF
     # Check network connection, exit if not connected
     client.confirmConnection()
-    simulator_car_controls = fsds.CarControls()
     while True:
         [img] = client.simGetImages([fsds.ImageRequest(camera_name = 'cam1', image_type = fsds.ImageType.Scene, pixels_as_float = False, compress = False)], vehicle_name = 'FSCar')
         img_buffer = np.frombuffer(img.image_data_uint8, dtype=np.uint8)

@@ -25,8 +25,6 @@ vulture . --min-confidence 100
 
 # TODO
 - !!!
-    
-    - with setup.py instead of requirements.txt
     - get rid of sys.path.append in the code
     - adopt src structure
     - Update the README.md
@@ -79,26 +77,16 @@ To stop: Ctrl+C in the terminal
 """
 
 if __name__ == '__main__': # multiprocessing creates child processes that import this file, with __name__ = '__mp_main__'
-    import os, sys, time, cv2
-    # Set the root folder first
-    SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-    os.chdir(SRC_DIR)
-    ROOT_DIR = os.path.dirname(SRC_DIR)
-    if ROOT_DIR not in sys.path:
-        sys.path.insert(0, ROOT_DIR) # This root checked first
-    
     import numpy as np
-    import multiprocessing
     import matplotlib.pyplot as plt # For representation of time consumed
     from my_utils.time_counter import Time_Counter
-    print(f'Python version: {sys.version}')
     
-    from car import Car
+    from driverless.car import Car
 
-    from visualization_utils.visualizer_yolo_det import Visualizer
+    from driverless.visualization_utils.visualizer_yolo_det import Visualizer
 
     # INITIALIZE things
-    dv_car = Car('config.yaml')
+    dv_car = Car()
     
     # READ TIMES
     timer = Time_Counter()
@@ -108,7 +96,7 @@ if __name__ == '__main__': # multiprocessing creates child processes that import
 
     # Main loop ------------------------
     try:
-        print(f'Starting main loop...')
+        print("Starting main loop...")
         while True:
             timer.add_time()
 
@@ -143,7 +131,7 @@ if __name__ == '__main__': # multiprocessing creates child processes that import
             # TESTING
             # print(f"STEER: {dv_car.actuation['steer']} -> {int((dv_car.actuation['steer'] + 1) / 2 * 90)}")
     finally:
-        print(f'------------')
+        print("------------")
         if dv_car.config['LOGGER']:
             dv_car.logger.write(f'{np.array(timer.times_integrated) / timer.loop_counter}')
         ## Plot the times

@@ -1,14 +1,14 @@
-import os, sys, time, math, cv2, yaml
-import numpy as np
-import multiprocessing
-import matplotlib.pyplot as plt # For representation of time consumed
+from pathlib import Path
+import os
+import yaml
+from driverless.visualization_utils.logger import Logger
+from driverless.cone_detection.yolo_detector import ConeDetector
 
-from visualization_utils.logger import Logger
-from cone_detection.yolo_detector import ConeDetector
+from driverless.camera import Camera
+from driverless.comm import CarCommunicator
+from driverless.agent.agent import Agent
 
-from camera import Camera
-from comm import CarCommunicator
-from agent.agent import Agent
+CONFIG_PATH_DEFAULT = Path(__file__).resolve().parent / 'config.yaml'
 
 class Car:
     # Possible config constants here. In the future in yaml file
@@ -18,7 +18,7 @@ class Car:
     3. send_actuation -> send CAN messages
     
     '''
-    def __init__(self, CONFIG_FILEPATH = "config.yaml"):
+    def __init__(self, CONFIG_FILEPATH: Path = CONFIG_PATH_DEFAULT):
         with open(CONFIG_FILEPATH, 'r') as f:
             self.config = yaml.safe_load(f)
         

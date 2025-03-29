@@ -1,4 +1,5 @@
-import os, sys, cv2, time
+import cv2
+import time
 import numpy as np
 import multiprocessing
 from abc import ABC, abstractmethod
@@ -9,14 +10,9 @@ class Camera(ABC):
         self.cam_queue  = multiprocessing.Queue(maxsize=1) #block=True, timeout=None
         
         self.RESOLUTION = (640, 640) # (width, height) in pixels of the image given to net. Default yolo_v5 resolution is 640x640
-        
-        # FSDS_LIB_PATH = os.path.join(os.path.expanduser("~"), "Formula-Student-Driverless-Simulator", "python") # os.getcwd()
-        self.SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.DRIVERLESS_DIR = os.path.dirname(self.SRC_DIR)
 
     def start(self):
         """Start the process for capturing images."""
-        
         if self.process is not None:
             return
         
@@ -242,13 +238,14 @@ class SimulatorCamera(Camera):
         
         In theory this function is not picklable, because it is defined inside another function, and anything with self is not picklable. However, it seems to work as long as the client is defined inside the function. The client is not picklable, so it cannot be passed as an argument to the function. But the function itself can be in a thread while being a method of the class.
         """
-        print(f"Starting SimulatorCamera()...")
+        print("Starting SimulatorCamera()...")
     
-        FSDS_LIB_PATH = os.path.join(os.path.dirname(self.DRIVERLESS_DIR), "Formula-Student-Driverless-Simulator", "python")
-        sys.path.insert(0, FSDS_LIB_PATH)
-        print(f'FSDS simulator path: {FSDS_LIB_PATH}')
-        global fsds
-        import fsds
+        from driverless.utils.fsds_loader import load_fsds
+        
+        fsds = load_fsds()
+        client = fsds.client.FSDSClient()
+        client.confirmConnection()
+        print("Camera connected to FSDS.")
         
         # connect to the simulator
         client = fsds.FSDSClient() # To get the image. WARNING: THIS IS NOT PICKLABLE, SO IT CANNOT BE PASSED TO A MULTIPROCESSING FUNCTION. HOWEVER, IT CAN BE DEFINED AND USED INSIDE THE WORKER FUNCTION ITSELF
@@ -334,8 +331,6 @@ state['orientation_y_rad'] = math.atan2(2*quaternions[1]*quaternions[3] - 2*quat
 
 
 if __name__ == '__main__':
-    IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test_media', 'cones_image.png')
-    VIDEO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test_media', 'video.mp4')
     # camera = ImageFileCamera(IMAGE_PATH)
     # camera = VideoFileCamera(0)
     camera = SimulatorCamera()

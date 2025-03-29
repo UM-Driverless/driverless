@@ -1,16 +1,8 @@
-import sys
-import os
-
-## adds the fsds package located the parent directory to the pyhthon path
-#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-fsds_lib_path = os.path.join(os.getcwd(),"Formula-Student-Driverless-Simulator","python")
-sys.path.insert(0, fsds_lib_path)
-print(f'FSDS simulator path: {fsds_lib_path}')
-
 import time
-import fsds
-import numpy as np
+from driverless.utils.fsds_loader import load_fsds
+
+fsds = load_fsds()
+client = fsds.client.FSDSClient()
 
 # connect to the AirSim simulator 
 client = fsds.FSDSClient()

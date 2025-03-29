@@ -1,16 +1,6 @@
-# TODO
-- yaml config file, remove globals
-- move all utils to my_utils
-- the agent should have all the conditionals and control the vehicle when in a mission. Should have the while True loop?
-- rename github project from Deteccion_conos to ``um_driverless``
-- find todos and fix them
-- check delays between simulator and processed image, response time
-- knowing the pickling error, try to visualize to a thread
-
-# UM-Driverless Contents
-- [TODO](#todo)
-- [UM-Driverless Contents](#um-driverless-contents)
+# Contents <!-- omit in toc -->
 - [Install](#install)
+- [TODO](#todo)
 - [INSTALL SIMULATOR](#install-simulator)
 - [Notes](#notes)
 - [NVIDIA JETSON XAVIER NX SETUP](#nvidia-jetson-xavier-nx-setup)
@@ -20,7 +10,7 @@
     - [To test](#to-test)
     - [To install any driver (canlib and kvcommon must be installed first):](#to-install-any-driver-canlib-and-kvcommon-must-be-installed-first)
 - [Old stuff](#old-stuff)
--------------------------------
+
 # Install
 We will use pyenv to install python without permission problems, uv package manager to create the virtual environment, called .venv, within the root of the project, then use a pip editable install based on our setup.py, which will install all the requirements and allow code changes to be reflected immediately. This also helps manage the paths correctly without having to explictly add them to the PYTHONPATH.
 
@@ -59,7 +49,14 @@ python -m pip install -e .
 ```
 
 
-
+# TODO
+- yaml config file, remove globals
+- move all utils to my_utils
+- the agent should have all the conditionals and control the vehicle when in a mission. Should have the while True loop?
+- rename github project from Deteccion_conos to ``um_driverless``
+- find todos and fix them
+- check delays between simulator and processed image, response time
+- knowing the pickling error, try to visualize to a thread
 
 
 -------------------------------

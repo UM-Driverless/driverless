@@ -1,0 +1,2 @@
+2025_03_29__14:02:14.916336: CONFIG: VISUALIZE: True, CAMERA_MODE: image, COMM_MODE: off, AGENT_MODE: 0, MISSION: 0, LOGGER: True, WEIGHTS_PATH: yolov5/weights/yolov5_models/best_adri.pt, 
+2025_03_29__14:02:17.367532: [        nan         nan]

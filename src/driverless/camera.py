@@ -11,8 +11,8 @@ class Camera(ABC):
         self.RESOLUTION = (640, 640) # (width, height) in pixels of the image given to net. Default yolo_v5 resolution is 640x640
         
         # FSDS_LIB_PATH = os.path.join(os.path.expanduser("~"), "Formula-Student-Driverless-Simulator", "python") # os.getcwd()
-        self.SRC_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.ROOT_DIR = os.path.dirname(self.SRC_DIR)
+        self.SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.DRIVERLESS_DIR = os.path.dirname(self.SRC_DIR)
 
     def start(self):
         """Start the process for capturing images."""
@@ -244,7 +244,7 @@ class SimulatorCamera(Camera):
         """
         print(f"Starting SimulatorCamera()...")
     
-        FSDS_LIB_PATH = os.path.join(os.path.dirname(self.ROOT_DIR), "Formula-Student-Driverless-Simulator", "python")
+        FSDS_LIB_PATH = os.path.join(os.path.dirname(self.DRIVERLESS_DIR), "Formula-Student-Driverless-Simulator", "python")
         sys.path.insert(0, FSDS_LIB_PATH)
         print(f'FSDS simulator path: {FSDS_LIB_PATH}')
         global fsds

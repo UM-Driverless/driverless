@@ -6,8 +6,8 @@ from abc import ABC, abstractmethod
 class CarCommunicator(ABC):
     def __init__(self):
         # FSDS_LIB_PATH = os.path.join(os.path.expanduser("~"), "Formula-Student-Driverless-Simulator", "python") # os.getcwd()
-        self.SRC_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.ROOT_DIR = os.path.dirname(self.SRC_DIR)
+        self.SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.DRIVERLESS_DIR = os.path.dirname(self.SRC_DIR)
 
     @abstractmethod
     def send_actuation(self, actuation):
@@ -47,10 +47,10 @@ class NullCarCommunicator(CarCommunicator):
 class SimulatorComm(CarCommunicator):
     def __init__(self):
         super().__init__()
-        FSDS_LIB_PATH = os.path.join(os.path.dirname(self.ROOT_DIR), "Formula-Student-Driverless-Simulator", "python")
+        FSDS_LIB_PATH = os.path.join(os.path.dirname(self.DRIVERLESS_DIR), "Formula-Student-Driverless-Simulator", "python")
         sys.path.insert(0, FSDS_LIB_PATH)
         print(f'FSDS simulator path: {FSDS_LIB_PATH}')
-        global fsds
+        global fsds # TODO TRY COMMENT THIS
         import fsds
         
         self.client = fsds.FSDSClient() # To control the car

@@ -10,6 +10,7 @@
 # UM-Driverless Contents
 - [TODO](#todo)
 - [UM-Driverless Contents](#um-driverless-contents)
+- [Install](#install)
 - [INSTALL SIMULATOR](#install-simulator)
 - [Notes](#notes)
 - [NVIDIA JETSON XAVIER NX SETUP](#nvidia-jetson-xavier-nx-setup)
@@ -19,8 +20,49 @@
     - [To test](#to-test)
     - [To install any driver (canlib and kvcommon must be installed first):](#to-install-any-driver-canlib-and-kvcommon-must-be-installed-first)
 - [Old stuff](#old-stuff)
+-------------------------------
+# Install
+We will use pyenv to install python without permission problems, uv package manager to create the virtual environment, called .venv, within the root of the project, then use a pip editable install based on our setup.py, which will install all the requirements and allow code changes to be reflected immediately. This also helps manage the paths correctly without having to explictly add them to the PYTHONPATH.
+
+```bash
+# Make sure you're in the project root, for pyenv local, uv, and pip commands.
+sudo apt-get update
+sudo apt-get install -y \
+  make build-essential libssl-dev zlib1g-dev libbz2-dev \
+  libreadline-dev libsqlite3-dev wget curl llvm \
+  libncurses5-dev xz-utils tk-dev libxml2-dev \
+  libxmlsec1-dev libffi-dev liblzma-dev
+
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+source ~/.bashrc # Reload shell
+
+pyenv install 3.12.3
+pyenv local 3.12.3 # For the current directory
+which python
+# Should be: /home/rubenayla/ngeu/.venv/bin/python
+# Or /home/rubenayla/.pyenv/shims/python, ready to install the venv now
+# Make sure you're in your project root now
+uv venv .venv
+source .venv/bin/activate
+
+python -m ensurepip --upgrade
+python -m pip install --upgrade pip # pip must be installed in the venv, pointing to the non-system-wide Python
+which pip
+# Should be: /home/rubenayla/ngeu/.venv/bin/pip
+pip install -e .
+# If it fails, try this:
+python -m pip install -e .
+```
 
 
+
+
+
+-------------------------------
 We won't use Conda since it's not necessary, and the several python versions have caused problems. Also conda can't install all the packages we need, so there would be some packages installed with pip and others with conda. It also caused problems with docker.
 
 - First apt installs

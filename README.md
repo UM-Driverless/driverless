@@ -12,7 +12,11 @@
     - [To install any driver (canlib and kvcommon must be installed first):](#to-install-any-driver-canlib-and-kvcommon-must-be-installed-first)
 - [Old stuff](#old-stuff)
 
-# Install
+# Setup
+First of all clone this repo
+
+`git clone https://github.com/UM-Driverless/driverless.git ~/driverless`
+
 We will use pyenv to install python without permission problems, uv package manager to create the virtual environment, called .venv, within the root of the project, then use a pip editable install based on our setup.py, which will install all the requirements and allow code changes to be reflected immediately. This also helps manage the paths correctly without having to explictly add them to the PYTHONPATH.
 
 ```bash

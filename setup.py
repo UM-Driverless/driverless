@@ -10,6 +10,9 @@ setup(
     package_dir={"": "src"},
     python_requires=">=3.8",
     install_requires=[
+        # Kvaser CANlib SDK required manually for `canlib` module:
+        # https://www.kvaser.com/downloads/
+        
         "numpy<2", # To increase version consider using newer Yolo model
         
         # CUDA 12.1 cause torch not made for 12.6, should work with 12.6 in system

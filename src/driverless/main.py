@@ -1,24 +1,6 @@
 """
 MAIN script to run all the others. Shall contain the main classes, top level functions etc.
 
-
-# HOW TO USE # TODO UPDATE EXPLANATION
-- Configuration variables in globals.py
-- If CAMERA_MODE = 4, start the simulator first, running fsds-v2.2.0-linux/FSDS.sh (This program can be located anywhere)
-    - Make sure there's a camera called 'cam1'
-    - Make sure the simulator folder is called 'Formula-Student-Driverless-Simulator'
-- You may need in the home directory:
-    - [Deteccion_conos](https://github.com/UM-Driverless/Deteccion_conos)
-    - [Formula-Student-Driverless-Simulator](https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator)
-
-- CHECK THIS:
-    - Weights in yolov5/weights/yolov5_models
-    - Active bash folder is ~/Deteccion_conos/ (Otherwise hubconf.py error)
-    - Check requirements{*}.txt, ZED API and gcc compiler up to date (12.1.0), etc.
-
-- For CAN to work first run setup_can0.sh
-    - To run on startup, add to /etc/profile.d/
-
 # REFERENCES
 https://github.com/UM-Driverless/Deteccion_conos/tree/Test_Portatil
 vulture . --min-confidence 100

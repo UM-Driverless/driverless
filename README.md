@@ -1,6 +1,6 @@
 # Contents <!-- omit in toc -->
 - [Install](#install)
-- [TODO](#todo)
+- [To-Do](#to-do)
 - [INSTALL SIMULATOR](#install-simulator)
 - [Notes](#notes)
 - [NVIDIA JETSON XAVIER NX SETUP](#nvidia-jetson-xavier-nx-setup)
@@ -49,14 +49,27 @@ python -m pip install -e .
 ```
 
 
-# TODO
-- yaml config file, remove globals
-- move all utils to my_utils
+# To-Do
+- use default logger python library
 - the agent should have all the conditionals and control the vehicle when in a mission. Should have the while True loop?
 - rename github project from Deteccion_conos to ``um_driverless``
-- find todos and fix them
 - check delays between simulator and processed image, response time
 - knowing the pickling error, try to visualize to a thread
+- TODO with open to camera and threads, simulator control? So it can close when stopped.
+- SEND CAN HEARTBEAT
+- MAKE ZED WORK AGAIN
+- RESTORE GENERIC AGENT CLASS FOR NO SPECIFIC TEST. THEN THE TESTS INHERIT FROM IT. COMMENTED.
+- PUT GLOBAL VARS AS ATTRIBUTE OF CAR OBJECT?
+- Initialize trackbars of ConeProcessing. Why?
+- Only import used libraries from activations with global config constants
+- SET SPEED ACCORDING TO CAN PROTOCOL, and the rest of state variables (SEN BOARD)
+- check edgeimpulse
+- Print number of cones detected per color
+- Xavier why network takes 3s to execute. How to make it use GPU?
+- Make net faster. Remove cone types that we don't use? Reduce resolution of yolov5?
+- Move threads to different files to make main.py shorter
+- Check NVPMODEL with high power during xavier installation
+- find todos and fix them
 
 
 -------------------------------
@@ -171,7 +184,8 @@ To use, first run the fsds-... file, click "Run simulation", then run the python
 
 # Notes
 - To use CAN comm with the Nvidia Jetson Orin, the can bus has to be working properly and connected when the Orin turns on. There has to be at least another device to acknowledge messages.
-- 
+- For CAN to work first run setup_can0.sh
+    - To run on startup, add to /etc/profile.d/
 
 # NVIDIA JETSON XAVIER NX SETUP
 TODO Testing with Jetpack 5.1

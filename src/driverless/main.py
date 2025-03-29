@@ -24,6 +24,12 @@ https://github.com/UM-Driverless/Deteccion_conos/tree/Test_Portatil
 vulture . --min-confidence 100
 
 # TODO
+- !!!
+    - Use pyenv to install python and uv package manager with pip editable install
+    - with setup.py instead of requirements.txt
+    - get rid of sys.path.append in the code
+    - adopt src structure
+    - Update the README.md
 TODO with open to camera and threads, simulator control? So it can close when stopped.
 - TODO RECOVER SIMULATOR CONTROL
 - SEND CAN HEARTBEAT

@@ -1,6 +1,8 @@
 # Contents <!-- omit in toc -->
-- [Install](#install)
+- [Setup](#setup)
     - [To install latest CUDA on Ubuntu 24.04:](#to-install-latest-cuda-on-ubuntu-2404)
+        - [Check this if you have problems](#check-this-if-you-have-problems)
+    - [Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):](#then-install-the-necessary-packages-that-utilize-cuda-with-matching-version-126-should-be-backwards-compatible-up-to-120)
 - [To-Do](#to-do)
 - [INSTALL SIMULATOR](#install-simulator)
 - [Notes](#notes)
@@ -15,7 +17,9 @@
 # Setup
 First of all clone this repo
 
-`git clone https://github.com/UM-Driverless/driverless.git ~/driverless`
+```bash
+git clone https://github.com/UM-Driverless/driverless.git ~/driverless
+```
 
 We will use pyenv to install python without permission problems, uv package manager to create the virtual environment, called .venv, within the root of the project, then use a pip editable install based on our setup.py, which will install all the requirements and allow code changes to be reflected immediately. This also helps manage the paths correctly without having to explictly add them to the PYTHONPATH.
 
@@ -38,8 +42,8 @@ source ~/.bashrc # Reload shell
 pyenv install 3.12.3
 pyenv local 3.12.3 # For the current directory
 which python
-# Should be: /home/rubenayla/ngeu/.venv/bin/python
-# Or /home/rubenayla/.pyenv/shims/python, ready to install the venv now
+# Should be: ~/driverless/.venv/bin/python
+# Or ~/.pyenv/shims/python, ready to install the venv now
 # Make sure you're in your project root now
 uv venv .venv
 source .venv/bin/activate
@@ -47,7 +51,7 @@ source .venv/bin/activate
 python -m ensurepip --upgrade
 python -m pip install --upgrade pip # pip must be installed in the venv, pointing to the non-system-wide Python
 which pip
-# Should be: /home/rubenayla/ngeu/.venv/bin/pip
+# Should be: ~/driverless/.venv/bin/pip
 pip install -e .
 # If it fails, try this:
 python -m pip install -e .
@@ -60,7 +64,8 @@ sudo apt install ./cuda-keyring_1.1-1_all.deb
 sudo apt update
 sudo apt install cuda-toolkit
 ```
-Check this
+
+### Check this if you have problems
 https://developer.nvidia.com/cuda-12-6-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=24.04&target_type=deb_network
 
 The previous codeblock worked for me. If you have problems, follow this. It should include everything necessary:
@@ -77,6 +82,12 @@ The previous codeblock worked for me. If you have problems, follow this. It shou
 - sudo apt-get update
 - sudo apt-get -y install cudnn-cuda-12
 - If these are the steps that you followed to install CUDA, tell me how you went about the Tensorflow installation.
+
+## Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):
+```bash
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+TODO DELETE? pip install torch==2.2.0+cu121 torchvision==0.17.0+cu121 torchaudio==2.2.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
+```
 
 
 # To-Do

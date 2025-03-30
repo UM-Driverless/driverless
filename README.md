@@ -162,6 +162,7 @@ The main script that should be run is `~/driverless/src/driverless/main.py`
 
 # To-Do
 - use default logger python library
+- Use sampling profiler?
 - the agent should have all the conditionals and control the vehicle when in a mission. Should have the while True loop?
 - rename github project from Deteccion_conos to ``um_driverless``
 - check delays between simulator and processed image, response time

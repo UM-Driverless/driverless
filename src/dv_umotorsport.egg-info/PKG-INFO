@@ -9,16 +9,12 @@ Classifier: License :: OSI Approved :: Apache Software License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.8
 License-File: LICENSE
-Requires-Dist: numpy<2
-Requires-Dist: torch==2.2.0+cu121
-Requires-Dist: torchvision==0.17.0+cu121
-Requires-Dist: torchaudio==2.2.0+cu121
+Requires-Dist: numpy==1.26.4
 Requires-Dist: transformers[torch]>=4.0.0
 Requires-Dist: tornado==4.5.3
 Requires-Dist: backports.ssl_match_hostname
 Requires-Dist: opencv-python
 Requires-Dist: matplotlib>=3.2.2
-Requires-Dist: numpy>=1.18.5
 Requires-Dist: Pillow>=7.1.2
 Requires-Dist: PyYAML>=5.3.1
 Requires-Dist: scipy>=1.4.1
@@ -32,13 +28,14 @@ Requires-Dist: ipywebrtc
 Requires-Dist: openpyxl
 Requires-Dist: webdriver_manager
 Requires-Dist: pyserial
-Requires-Dist: msgpack-rpc-python
-Requires-Dist: python-can
+Requires-Dist: msgpack-rpc-python==0.4.1
 Requires-Dist: simple-pid
 Requires-Dist: cython
 Requires-Dist: pyopengl
 Requires-Dist: scikit-image
 Requires-Dist: psutil
+Requires-Dist: gitpython
+Requires-Dist: ipython
 Dynamic: author
 Dynamic: classifier
 Dynamic: license

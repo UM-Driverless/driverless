@@ -25,6 +25,10 @@ src/driverless/cone_detection/deleteme_deleteme.py
 src/driverless/cone_detection/yolo_detector.py
 src/driverless/trajectory_estimation/__init__.py
 src/driverless/trajectory_estimation/cone_processing.py
+src/driverless/utils/__init__.py
+src/driverless/utils/fsds_loader.py
+src/driverless/utils/time_counter.py
+src/driverless/utils/utils.py
 src/driverless/visualization_utils/__init__.py
 src/driverless/visualization_utils/create_gif.py
 src/driverless/visualization_utils/create_video.py

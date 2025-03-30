@@ -1,5 +1,6 @@
 # Anything containing venv in the name
 *venv/
+*egg-info*
 /cone_detection/saved_models/
 /video/
 /logs/

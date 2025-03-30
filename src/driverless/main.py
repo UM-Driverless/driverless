@@ -1,16 +1,6 @@
 """
-MAIN script to run all the others. Shall contain the main classes, top level functions etc.
-
-# REFERENCES
-https://github.com/UM-Driverless/Deteccion_conos/tree/Test_Portatil
-vulture . --min-confidence 100
-
-- Wanted to make visualize work in a thread and for any resolution, but now it works for any resolution, don't know why, and it's always about 3ms so it's not worth it for now.
-
-# STUFF
-To stop: Ctrl+C in the terminal
-
 # INFO
+- To stop: Ctrl+C in the terminal
 - In ruben laptop:
     - torch.hub.load(): YOLOv5 🚀 2023-1-31 Python-3.10.8 torch-1.13.0+cu117 CUDA:0 (NVIDIA GeForce GTX 1650, 3904MiB)
     - ( torch.hub.load(): YOLOv5 🚀 2023-4-1 Python-3.10.6 torch-1.11.0+cu102 CUDA:0 (NVIDIA GeForce GTX 1650, 3904MiB) )
@@ -30,15 +20,14 @@ To stop: Ctrl+C in the terminal
     - Z: Up
 
 """
+import numpy as np
+import matplotlib.pyplot as plt # For representation of time consumed
+
+from driverless.utils.time_counter import Time_Counter
+from driverless.car import Car
+from driverless.visualization_utils.visualizer_yolo_det import Visualizer
 
 if __name__ == '__main__': # multiprocessing creates child processes that import this file, with __name__ = '__mp_main__'
-    import numpy as np
-    import matplotlib.pyplot as plt # For representation of time consumed
-    from driverless.utils.time_counter import Time_Counter
-    
-    from driverless.car import Car
-
-    from driverless.visualization_utils.visualizer_yolo_det import Visualizer
 
     # INITIALIZE things
     dv_car = Car()

@@ -4,6 +4,7 @@
         - [Check this if you have problems](#check-this-if-you-have-problems)
     - [Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):](#then-install-the-necessary-packages-that-utilize-cuda-with-matching-version-126-should-be-backwards-compatible-up-to-120)
     - [Install the simulator](#install-the-simulator)
+    - [Use the code](#use-the-code)
 - [To-Do](#to-do)
 - [Notes](#notes)
 - [NVIDIA JETSON XAVIER NX SETUP](#nvidia-jetson-xavier-nx-setup)
@@ -21,7 +22,7 @@ First of all clone this repo
 git clone https://github.com/UM-Driverless/driverless.git ~/driverless
 ```
 
-We will use pyenv to install python without permission problems, uv package manager to create the virtual environment, called .venv, within the root of the project, then use a pip editable install based on our setup.py, which will install all the requirements and allow code changes to be reflected immediately. This also helps manage the paths correctly without having to explictly add them to the PYTHONPATH.
+We will use pyenv to install python without permission problems, a python virtual environment called .venv, within the root of the project, then use a pip editable install based on our setup.py, which will install all the requirements and allow code changes to be reflected immediately. This also helps manage the paths correctly without having to explictly add them to the PYTHONPATH.
 
 ```bash
 cd ~
@@ -70,7 +71,7 @@ which pip
 # 10. Install your project in editable mode:
 pip install -e .
 # If that fails, try:
-python -m pip install --isolated --force-reinstall -e .
+# python -m pip install --isolated --force-reinstall -e .
 ```
 
 ## To install latest CUDA on Ubuntu 24.04:
@@ -104,8 +105,6 @@ Yolov5 model is a bit outdated, so it needs to run with PyTorch 2.5.1. You can i
 ```bash
 pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 torchaudio==2.5.1+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
 ```
-
-TODO WITH +cu121 or without it?
 
 ## Install the simulator
 Go to [https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/releases](https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/releases) and download the latest version. This is an executable file that will run the simulator. It can be stored and run from anywhere.
@@ -153,6 +152,13 @@ client.reset()
 </details>
 
 To use, first run the fsds-... file, click "Run simulation", then run the python code
+
+## Use the code
+Check `~/driverless/src/driverless/config.yaml` for the configuration of the simulator.
+The easiest setup is with `CAMERA_MODE: image` and `COMM_MODE: off`.
+To take the image from the simulator use `CAMERA_MODE: sim`. To also control the simulator, use `COMM_MODE: sim`.
+
+The main script that should be run is `~/driverless/src/driverless/main.py`
 
 # To-Do
 - use default logger python library

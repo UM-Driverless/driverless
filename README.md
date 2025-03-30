@@ -54,7 +54,7 @@ which pip
 # Should be: ~/driverless/.venv/bin/pip
 pip install -e .
 # If it fails, try this:
-python -m pip install -e .
+python -m pip install --isolated --force-reinstall -e .
 ```
 
 ## To install latest CUDA on Ubuntu 24.04:

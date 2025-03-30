@@ -13,14 +13,13 @@ setup(
         # Kvaser CANlib SDK required manually for `canlib` module:
         # https://www.kvaser.com/downloads/
         
-        "numpy<2", # To increase version consider using newer Yolo model
+        "numpy>=1.26.0,<2", # Between 1.18.5 and <2.0. To increase version consider using newer Yolo model
         "transformers[torch]>=4.0.0",
         "tornado==4.5.3", # DEPENDENCY HELL
         "backports.ssl_match_hostname",
         
         "opencv-python",
         "matplotlib>=3.2.2",
-        "numpy>=1.18.5",
         "Pillow>=7.1.2",
         "PyYAML>=5.3.1",
         "scipy>=1.4.1",
@@ -34,9 +33,10 @@ setup(
         "openpyxl",
         "webdriver_manager",
         "pyserial",
-        "msgpack-rpc-python",
+        # "python-can", # Incompatible with mspack dependency needed by the fsds simulator
+        "msgpack==0.6.2",
+        "msgpack-rpc-python==0.4.1",
         
-        "python-can",
         "simple-pid",
         "cython",
         "pyopengl",

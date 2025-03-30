@@ -84,11 +84,10 @@ The previous codeblock worked for me. If you have problems, follow this. It shou
 - If these are the steps that you followed to install CUDA, tell me how you went about the Tensorflow installation.
 
 ## Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):
+Yolov5 model is a bit outdated, so it needs to run with PyTorch 2.5.1. You can install those with this command. It's designed for CUDA 12.1, but CUDA 12.6 is backwards compatible, so newer versions should work as well:
 ```bash
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
-TODO DELETE? pip install torch==2.2.0+cu121 torchvision==0.17.0+cu121 torchaudio==2.2.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
+pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --extra-index-url https://download.pytorch.org/whl/cu121
 ```
-
 
 # To-Do
 - use default logger python library

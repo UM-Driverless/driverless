@@ -14,11 +14,6 @@ setup(
         # https://www.kvaser.com/downloads/
         
         "numpy<2", # To increase version consider using newer Yolo model
-        
-        # CUDA 12.1 cause torch not made for 12.6, should work with 12.6 in system
-        "torch==2.2.0+cu121",
-        "torchvision==0.17.0+cu121",
-        "torchaudio==2.2.0+cu121",
         "transformers[torch]>=4.0.0",
         "tornado==4.5.3", # DEPENDENCY HELL
         "backports.ssl_match_hostname",

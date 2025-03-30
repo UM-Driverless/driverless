@@ -39,8 +39,8 @@ echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 source ~/.bashrc # Reload shell
 
-pyenv install 3.12.3
-pyenv local 3.12.3 # For the current directory
+pyenv install 3.12.3 # To install that version in the computer. You can have many
+pyenv local 3.12.3 # To set that version, of all the installed ones, as the version of this project
 which python
 # Should be: ~/driverless/.venv/bin/python
 # Or ~/.pyenv/shims/python, ready to install the venv now

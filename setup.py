@@ -13,9 +13,9 @@ setup(
         # Kvaser CANlib SDK required manually for `canlib` module:
         # https://www.kvaser.com/downloads/
         
-        "numpy>=1.26.0,<2", # Between 1.18.5 and <2.0. To increase version consider using newer Yolo model
+        "numpy==1.26.4", # Between 1.18.5 and <2.0. To increase version consider using newer Yolo model
         "transformers[torch]>=4.0.0",
-        "tornado==4.5.3", # DEPENDENCY HELL
+        "tornado==4.5.3", # DEPENDENCY HELL. 4.5.3
         "backports.ssl_match_hostname",
         
         "opencv-python",
@@ -34,7 +34,9 @@ setup(
         "webdriver_manager",
         "pyserial",
         # "python-can", # Incompatible with mspack dependency needed by the fsds simulator
-        "msgpack==0.6.2",
+        
+        # was not necessary before
+        # "msgpack==0.5.6", # Doesn't seem to be needed, maybe included by msgpack-rpc-python. But the version installed is 0.5.6
         "msgpack-rpc-python==0.4.1",
         
         "simple-pid",

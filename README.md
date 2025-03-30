@@ -3,8 +3,8 @@
     - [To install latest CUDA on Ubuntu 24.04:](#to-install-latest-cuda-on-ubuntu-2404)
         - [Check this if you have problems](#check-this-if-you-have-problems)
     - [Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):](#then-install-the-necessary-packages-that-utilize-cuda-with-matching-version-126-should-be-backwards-compatible-up-to-120)
+    - [Install the simulator](#install-the-simulator)
 - [To-Do](#to-do)
-- [INSTALL SIMULATOR](#install-simulator)
 - [Notes](#notes)
 - [NVIDIA JETSON XAVIER NX SETUP](#nvidia-jetson-xavier-nx-setup)
 - [KVASER Setup in Ubuntu](#kvaser-setup-in-ubuntu)
@@ -24,7 +24,7 @@ git clone https://github.com/UM-Driverless/driverless.git ~/driverless
 We will use pyenv to install python without permission problems, uv package manager to create the virtual environment, called .venv, within the root of the project, then use a pip editable install based on our setup.py, which will install all the requirements and allow code changes to be reflected immediately. This also helps manage the paths correctly without having to explictly add them to the PYTHONPATH.
 
 ```bash
-# Make sure you're in the project root, for pyenv local, uv, and pip commands.
+cd ~
 sudo apt-get update
 sudo apt-get install -y \
   make build-essential libssl-dev zlib1g-dev libbz2-dev \
@@ -32,28 +32,44 @@ sudo apt-get install -y \
   libncurses5-dev xz-utils tk-dev libxml2-dev \
   libxmlsec1-dev libffi-dev liblzma-dev
 
+# 2. Install pyenv (if not already installed):
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
+# 3. Set up pyenv in your shell (add these lines to your ~/.bashrc and reload):
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-source ~/.bashrc # Reload shell
+source ~/.bashrc
 
-pyenv install 3.12.3 # To install that version in the computer. You can have many
-pyenv local 3.12.3 # To set that version, of all the installed ones, as the version of this project
-which python
-# Should be: ~/driverless/.venv/bin/python
-# Or ~/.pyenv/shims/python, ready to install the venv now
-# Make sure you're in your project root now
-uv venv .venv
+# 4. Install the desired Python version (you can have multiple versions installed)
+pyenv install 3.12.3
+
+# 5. In your project root (e.g. ~/driverless), set the local Python version:
+cd ~/driverless
+pyenv local 3.12.3
+# This creates a .python-version file specifying Python 3.12.3 for this project.
+
+# 6. Create a new isolated virtual environment using the local Python:
+#    This ensures you're using the Python from your project rather than the pyenv shim.
+python -m venv .venv
+# (If that fails, try: ~/.pyenv/versions/3.12.3/bin/python -m venv .venv)
+
+# 7. Activate your virtual environment:
 source .venv/bin/activate
 
+# 8. Verify that the virtual environment is active and using the local Python:
+which python
+# Expected output: ~/driverless/.venv/bin/python
+
+# 9. Upgrade pip inside the venv:
 python -m ensurepip --upgrade
-python -m pip install --upgrade pip # pip must be installed in the venv, pointing to the non-system-wide Python
+python -m pip install --upgrade pip
 which pip
-# Should be: ~/driverless/.venv/bin/pip
+# Expected output: ~/driverless/.venv/bin/pip
+
+# 10. Install your project in editable mode:
 pip install -e .
-# If it fails, try this:
+# If that fails, try:
 python -m pip install --isolated --force-reinstall -e .
 ```
 
@@ -84,10 +100,59 @@ The previous codeblock worked for me. If you have problems, follow this. It shou
 - If these are the steps that you followed to install CUDA, tell me how you went about the Tensorflow installation.
 
 ## Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):
-Yolov5 model is a bit outdated, so it needs to run with PyTorch 2.5.1. You can install those with this command. It's designed for CUDA 12.1, but CUDA 12.6 is backwards compatible, so newer versions should work as well:
+Yolov5 model is a bit outdated, so it needs to run with PyTorch 2.5.1. You can install those with this command. It's designed for CUDA 12.1, but CUDA 12.6 is backwards compatible, so newer versions should work as well. It should just lose the newer features after CUDA 12.1:
 ```bash
-pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --extra-index-url https://download.pytorch.org/whl/cu121
+pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 torchaudio==2.5.1+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
 ```
+
+TODO WITH +cu121 or without it?
+
+## Install the simulator
+Go to [https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/releases](https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/releases) and download the latest version. This is an executable file that will run the simulator. It can be stored and run from anywhere.
+To connect to the Python code, clone the repo in the same folder as Deteccion_conos. [Here](https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/tree/master/python/examples) you can see Python examples.
+
+<details>
+    <summary>Test program</summary>
+
+```python
+# This code adds the fsds package to the pyhthon path.
+# It assumes the fsds repo is cloned in the home directory.
+# Replace fsds_lib_path with a path to wherever the python directory is located.
+import sys, os
+# fsds_lib_path = os.path.join(os.path.expanduser("~"), "Formula-Student-Driverless-Simulator", "python")
+fsds_lib_path = os.path.join(os.getcwd(),"python")
+print('CARPETA:',fsds_lib_path)
+sys.path.insert(0, fsds_lib_path)
+
+import time
+
+import fsds
+
+# connect to the AirSim simulator 
+client = fsds.FSDSClient()
+
+# Check network connection
+client.confirmConnection()
+
+# After enabling api controll only the api can controll the car. 
+# Direct keyboard and joystick into the simulator are disabled.
+# If you want to still be able to drive with the keyboard while also 
+# controll the car using the api, call client.enableApiControl(False)
+client.enableApiControl(True)
+
+# Instruct the car to go full-speed forward
+car_controls = fsds.CarControls()
+car_controls.throttle = 1
+client.setCarControls(car_controls)
+
+time.sleep(5)
+
+# Places the vehicle back at it's original position
+client.reset()
+```
+</details>
+
+To use, first run the fsds-... file, click "Run simulation", then run the python code
 
 # To-Do
 - use default logger python library
@@ -189,53 +254,6 @@ We won't use Conda since it's not necessary, and the several python versions hav
 * To explore if something fails:
     * `sudo apt-get install python3-tk`
 - To install cuda manually: https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_network
-
-# INSTALL SIMULATOR
-Go to [https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/releases](https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/releases) and download the latest version. This is an executable file that will run the simulator. It can be stored and run from anywhere.
-To connect to the Python code, clone the repo in the same folder as Deteccion_conos. [Here](https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/tree/master/python/examples) you can see Python examples.
-
-<details>
-    <summary>Test program</summary>
-
-```python
-# This code adds the fsds package to the pyhthon path.
-# It assumes the fsds repo is cloned in the home directory.
-# Replace fsds_lib_path with a path to wherever the python directory is located.
-import sys, os
-# fsds_lib_path = os.path.join(os.path.expanduser("~"), "Formula-Student-Driverless-Simulator", "python")
-fsds_lib_path = os.path.join(os.getcwd(),"python")
-print('CARPETA:',fsds_lib_path)
-sys.path.insert(0, fsds_lib_path)
-
-import time
-
-import fsds
-
-# connect to the AirSim simulator 
-client = fsds.FSDSClient()
-
-# Check network connection
-client.confirmConnection()
-
-# After enabling api controll only the api can controll the car. 
-# Direct keyboard and joystick into the simulator are disabled.
-# If you want to still be able to drive with the keyboard while also 
-# controll the car using the api, call client.enableApiControl(False)
-client.enableApiControl(True)
-
-# Instruct the car to go full-speed forward
-car_controls = fsds.CarControls()
-car_controls.throttle = 1
-client.setCarControls(car_controls)
-
-time.sleep(5)
-
-# Places the vehicle back at it's original position
-client.reset()
-```
-</details>
-
-To use, first run the fsds-... file, click "Run simulation", then run the python code
 
 # Notes
 - To use CAN comm with the Nvidia Jetson Orin, the can bus has to be working properly and connected when the Orin turns on. There has to be at least another device to acknowledge messages.

@@ -34,7 +34,7 @@ To stop: Ctrl+C in the terminal
 if __name__ == '__main__': # multiprocessing creates child processes that import this file, with __name__ = '__mp_main__'
     import numpy as np
     import matplotlib.pyplot as plt # For representation of time consumed
-    from my_utils.time_counter import Time_Counter
+    from driverless.utils.time_counter import Time_Counter
     
     from driverless.car import Car
 

@@ -16,8 +16,9 @@
 - [Old stuff](#old-stuff)
 
 # Setup
-First of all clone this repo
+[Here](https://youtu.be/wZSFr2eYE4M?si=7AaXeB594v13ZJVm) you have a tutorial in Spanish about the installation process.
 
+First of all clone this repo
 ```bash
 git clone https://github.com/UM-Driverless/driverless.git ~/driverless
 ```

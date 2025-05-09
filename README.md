@@ -1,7 +1,6 @@
 # Contents <!-- omit in toc -->
 - [Setup](#setup)
-    - [To install latest CUDA on Ubuntu 24.04:](#to-install-latest-cuda-on-ubuntu-2404)
-        - [Check this if you have problems](#check-this-if-you-have-problems)
+    - [For NVidia acceleration --- CUDA on Ubuntu 24.04](#for-nvidia-acceleration-----cuda-on-ubuntu-2404)
     - [Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):](#then-install-the-necessary-packages-that-utilize-cuda-with-matching-version-126-should-be-backwards-compatible-up-to-120)
     - [Install the simulator](#install-the-simulator)
     - [Use the code](#use-the-code)
@@ -75,20 +74,60 @@ pip install -e .
 # python -m pip install --isolated --force-reinstall -e .
 ```
 
-## To install latest CUDA on Ubuntu 24.04:
-```bash
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
-sudo apt install ./cuda-keyring_1.1-1_all.deb
-sudo apt update
-sudo apt install cuda-toolkit
-```
+## For NVidia acceleration --- CUDA on Ubuntu 24.04
+- To check cuda availability
+    - Check if pytorch sees cuda
+        ```python
+        import torch
+        print(torch.__version__)
+        print("CUDA available:", torch.cuda.is_available())
+        print("Device:", torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+        ```
+    - Check driver working with `nvidia-smi` (if broken you won't get a response)
+    - Check that project uses cuda-enabled pytorch with `pip show torch`
+        - +cpu is cpu only, +cuXXX is cuda enabled
+- Install NVidia drivers compatible with CUDA 12.6 for Ubuntu 24 (or adjust for your system)
+    - 550 driver recommended. It's compatible with old and new. (for CUDA 12.4, works with 12.6)
+        ```bash
+        # 1. Purge any old NVIDIA packages
+        sudo apt-get purge -y 'nvidia-*' 
 
-### Check this if you have problems
-https://developer.nvidia.com/cuda-12-6-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=24.04&target_type=deb_network
+        # 2. Add the official graphics-drivers PPA (if you haven’t)
+        sudo add-apt-repository ppa:graphics-drivers/ppa
+        sudo apt-get update
 
-The previous codeblock worked for me. If you have problems, follow this. It should include everything necessary:
-- Install NVIDIA drivers
-- Install NVIDIA driver utils
+        # 3. Install the 550 series driver to match NVML 550.144
+        sudo apt-get install -y nvidia-driver-550
+
+        # 4. Reboot so the new kernel module loads
+        sudo reboot
+        ```
+        Then check with `nvidia-smi` if the driver is installed correctly.
+    - To remove your current ones (so you can install the new ones):
+        ```bash
+        sudo apt-get remove --purge '^nvidia-.*' 'libnvidia-.*' nvidia-kernel-common-* -y
+        sudo apt-get autoremove -y
+        ```
+- Run this (link from NVidia to get install code) to get the toolkit (headers and compiler):
+    - https://developer.nvidia.com/cuda-12-6-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=24.04&target_type=deb_network
+        ```bash
+        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+        sudo dpkg -i cuda-keyring_1.1-1_all.deb
+        sudo apt-get update
+        sudo apt-get -y install cuda-toolkit-12-6
+        ```
+- https://pytorch.org/get-started/locally/
+    ```bash
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+    ```
+
+If still have problems, try this:
+- Install NVIDIA driver utils (550 driver is for CUDA 12.4, compatible with old and new)
+    ```bash
+    sudo apt-get update
+    sudo apt-get install -y nvidia-utils-550
+    sudo ldconfig
+    ```
 - Install general drivers: ubuntu-drivers autoinstall
 - Install CUDA with: apt install nvidia-cuda-toolkit
 - (skipping steps like GDS and Mellanox here)
@@ -99,7 +138,6 @@ The previous codeblock worked for me. If you have problems, follow this. It shou
 - sudo cp /var/cudnn-local-repo-ubuntu2204-9.1.1/cudnn-*-keyring.gpg /usr/share/keyrings/
 - sudo apt-get update
 - sudo apt-get -y install cudnn-cuda-12
-- If these are the steps that you followed to install CUDA, tell me how you went about the Tensorflow installation.
 
 ## Then install the necessary packages that utilize CUDA, with matching version (12.6 should be backwards compatible up to 12.0):
 Yolov5 model is a bit outdated, so it needs to run with PyTorch 2.5.1. You can install those with this command. It's designed for CUDA 12.1, but CUDA 12.6 is backwards compatible, so newer versions should work as well. It should just lose the newer features after CUDA 12.1:
@@ -269,6 +307,8 @@ We won't use Conda since it's not necessary, and the several python versions hav
     - To run on startup, add to /etc/profile.d/
 - For CAN to work first run setup_can0.sh
     - To run on startup, add to /etc/profile.d/
+
+
 
 # NVIDIA JETSON XAVIER NX SETUP
 TODO Testing with Jetpack 5.1

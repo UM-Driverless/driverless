@@ -23,7 +23,7 @@
 import numpy as np
 import matplotlib.pyplot as plt # For representation of time consumed
 
-from driverless.utils.time_counter import Time_Counter
+from driverless.dv_utils.time_counter import Time_Counter
 from driverless.car import Car
 from driverless.visualization_utils.visualizer_yolo_det import Visualizer
 

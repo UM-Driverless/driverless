@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-from driverless.utils.fsds_loader import load_fsds
+from driverless.dv_utils.fsds_loader import load_fsds
 fsds = load_fsds()
 sim_client1 = fsds.client.FSDSClient()
 sim_client1.confirmConnection()  # Example method to confirm connection

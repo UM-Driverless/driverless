@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dv-umotorsport"
+version = "1.0.0"
+description = "An autonomous driving software for the U-Motorsport team"
+authors = [{ name = "Rubén Jiménez Mejías" }] # todo add more
+license = { text = "Apache-2.0" }
+requires-python = ">=3.8"
+
+dependencies = [
+    "numpy==1.26.4",
+    "transformers[torch]>=4.0.0",
+    "tornado==4.5.3",
+    "backports.ssl_match_hostname",
+    "opencv-python",
+    "opencv-python-headless",
+    "matplotlib>=3.2.2",
+    "Pillow>=7.1.2",
+    "PyYAML>=5.3.1",
+    "scipy>=1.4.1",
+    "tqdm>=4.41.0",
+    "tensorboard>=2.4.1",
+    "pandas>=1.1.4",
+    "seaborn>=0.11.0",
+    "thop",
+    "ipywidgets",
+    "ipywebrtc",
+    "openpyxl",
+    "webdriver_manager",
+    "pyserial",
+    "msgpack-rpc-python==0.4.1",
+    "simple-pid",
+    "cython",
+    "pyopengl",
+    "scikit-image",
+    "psutil",
+    "gitpython",
+    "ipython",
+    # "torchvision>=0.9.0","torchvision>=0.9.0",
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.optional-dependencies]
+# You can define extra groups like "dev" or "test" here if needed
+# dev = ["black", "ruff", "pytest"]

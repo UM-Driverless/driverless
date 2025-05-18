@@ -2,7 +2,7 @@
 FSDS module loader
 
 Usage:
-    from driverless.utils.fsds_loader import load_fsds
+    from driverless.dv_utils.fsds_loader import load_fsds
     fsds = load_fsds()
     client = fsds.client.FSDSClient()
     client.confirmConnection()  # Example method to confirm connection

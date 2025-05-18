@@ -46,7 +46,7 @@ source ~/.bashrc
 pyenv install 3.12.3
 
 # 5. In your project root (e.g. ~/driverless), set the local Python version:
-cd ~/driverless
+cd ~/driverless # ADJUST IF DIFFERENT
 pyenv local 3.12.3
 # This creates a .python-version file specifying Python 3.12.3 for this project.
 

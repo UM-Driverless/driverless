@@ -1,16 +1,40 @@
-import os, sys, math, cv2, yaml
-import numpy as np
-from skimage.io import imread, imshow
-from skimage import transform
-import matplotlib.pyplot as plt
+import math
 import torch
-print(f'IS CUDA AVAILABLE? : {torch.cuda.is_available()}')
+from driverless.yolov5.models.yolo import DetectionModel
+from packaging import version
+
+# Notify if wrong torch version
+REQUIRED_MAX_VERSION = "2.5.1"
+
+# Strip build metadata (e.g. +cu121)
+torch_version_clean = torch.__version__.split("+")[0]
+
+if version.parse(torch_version_clean) > version.parse(REQUIRED_MAX_VERSION):
+    raise RuntimeError(
+        f"❌ PyTorch {torch.__version__} is too new. "
+        f"Please use torch<={REQUIRED_MAX_VERSION} due to compatibility issues with Yolov5"
+    )
+
+if torch.cuda.is_available():
+    print("CUDA device:", torch.cuda.get_device_name(torch.cuda.current_device()))
+else:
+    print("Using CPU")
 
 class ConeDetector():
     def __init__(self, checkpoint_path="~/Deteccion_conos/yolov5/weights/yolov5_models/best_adri.pt"):
         self.checkpoint_path = checkpoint_path
         print(f'Using weights in: {checkpoint_path}')
-        self.detection_model = torch.hub.load('yolov5/', 'custom', path=checkpoint_path, source='local', force_reload=True)
+        # self.detection_model = torch.hub.load('yolov5/', 'custom', path=checkpoint_path, source='local', force_reload=True)
+        
+        with torch.serialization.safe_globals({'models.yolo.DetectionModel': DetectionModel}):
+            self.detection_model = torch.hub.load(
+                'yolov5/',
+                'custom',
+                path=self.checkpoint_path,
+                source='local',
+                force_reload=True
+            )
+        
         self.detection_model.conf = 0.3
 
     def detect_cones(self, image, car_state):

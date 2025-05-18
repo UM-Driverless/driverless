@@ -41,6 +41,7 @@ dependencies = [
     "ipython",
     # "torchvision>=0.9.0","torchvision>=0.9.0",
     "onnx",
+    "packaging",
 ]
 
 [tool.setuptools]

@@ -12,6 +12,7 @@
 - [Cliente para realizar la detección de conos en el simulador](#cliente-para-realizar-la-detección-de-conos-en-el-simulador)
     - [To test](#to-test)
     - [To install any driver (canlib and kvcommon must be installed first):](#to-install-any-driver-canlib-and-kvcommon-must-be-installed-first)
+- [Stuff](#stuff)
 - [Old stuff](#old-stuff)
 
 # Setup
@@ -424,6 +425,7 @@ Se debe descomprimir el archivo dentro de la carpeta: /PyUMotorsport/cone_detect
 Los pesos de la red neuronal para el main_2.py se encuentran en el siguiente enlace: https://drive.google.com/file/d/1NFDBKxpRcfPs8PV3oftLya_M9GxW8O5h/view?usp=sharing
 Se debe descomprimir el archivo dentro de la carpeta: /PyUMotorsport_v2/ObjectDetectionSegmentation/DetectionData/
 
+
 ## To test
 Go to canlib/examples
 ```bash
@@ -436,6 +438,10 @@ Go to canlib/examples
 make
 sudo ./installscript.sh
 ```
+
+# Stuff
+Path of the model weights: `/src/driverless/yolov5/weights/yolov5_models`
+
 
 ---
 # Old stuff
